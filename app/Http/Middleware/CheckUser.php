@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class CheckAdmin
+class CheckUser
 {
     /**
      * Handle an incoming request.
@@ -17,7 +17,7 @@ class CheckAdmin
     public function handle(Request $request, Closure $next): Response
     {
         // Kiểm tra xem người dùng đã đăng nhập chưa và kiểm tra xem vai trò của họ có phải là 'admin' hay không
-        if (Auth::check() && Auth::user()->role == 'admin') {
+        if (Auth::check() && Auth::user()->role == 'user') {
             // Nếu người dùng đã đăng nhập và vai trò là 'admin', cho phép tiếp tục yêu cầu (tiến vào route tiếp theo)
             return $next($request);
         } else {

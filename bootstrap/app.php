@@ -4,7 +4,6 @@ use GuzzleHttp\RedirectMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
-use App\Http\Middleware\RedirectIfAuthenticated;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -13,7 +12,13 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-      $middleware->api(prepend:RedirectIfAuthenticated::class);
+        // Đăng ký alias cho các middleware trong ứng dụng
+        $middleware->alias([
+            // Alias 'CheckUser' trỏ tới middleware CheckUser trong thư mục \App\Http\Middleware
+            'CheckUser' => \App\Http\Middleware\CheckUser::class,
+            // Alias 'CheckAdmin' trỏ tới middleware CheckAdmin trong thư mục \App\Http\Middleware
+            'CheckAdmin' => \App\Http\Middleware\CheckAdmin::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

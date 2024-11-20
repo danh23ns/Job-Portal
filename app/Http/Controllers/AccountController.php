@@ -89,17 +89,20 @@ class AccountController extends Controller
         ]);
 
         if ($validator->passes()) {
-
-            //Auth::attempt([...]): Phương thức attempt kiểm tra xem thông tin đăng nhập do người dùng cung cấp (email và password) có khớp với bất kỳ bản ghi nào trong bảng users của cơ sở dữ liệu hay không.
+            //Auth::attempt([...]): Phương thức attempt kiểm tra xem thông tin đăng nhập do người dùng cung cấp (email và password) 
+            //có khớp với bất kỳ bản ghi nào trong bảng users của cơ sở dữ liệu hay không.
            if(Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-               return redirect()->route('account.profile');
+            //    
+                if(Auth::user()->role == 'admin') {
+                    return redirect()->route('admin.dashboard');
+                } else {
+                    return redirect()->route('account.profile');
+                }
            } else {
                return redirect()->route('account.login')
                ->with('error','Invalid email or password')
                ->withInput($request->only('email'));
-
            }
-        
         } else {
            return redirect()->route('account.login')
            ->withErrors($validator) //giúp hiển thị các thông báo lỗi để người dùng biết và sửa lại dữ liệu đầu vào.
