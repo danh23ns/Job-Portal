@@ -18,6 +18,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'CheckUser' => \App\Http\Middleware\CheckUser::class,
             // Alias 'CheckAdmin' trỏ tới middleware CheckAdmin trong thư mục \App\Http\Middleware
             'CheckAdmin' => \App\Http\Middleware\CheckAdmin::class,
+            // Alias 'Authen' trỏ tới middleware Authen trong thư mục \App\Http\Middleware
+            'Authen' => \App\Http\Middleware\Authen::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
